@@ -22,7 +22,14 @@ export default function Navbar() {
           </>
         )}
         {auth.isLoggedIn && (
-          <li><Link to="/logout">Logout</Link></li>
+          <>
+            <li>hello</li>
+            <li>
+              <button className="btn" onClick={() => auth.logout()}>
+                Logout
+              </button>
+            </li>
+          </>
         )}
       </ul>
     </nav>

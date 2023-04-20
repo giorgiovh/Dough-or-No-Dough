@@ -9,7 +9,6 @@ import Navbar from "./components/Navbar";
 import { AuthContext } from './context/auth-context'
 
 function App() {
-  const [cartIsEmpty] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   // we wrap the function below with useCallback so that it is not recreated unnecessarily. This avoids infite loops. The dependency array is empty which means it will never be recreated
@@ -27,14 +26,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-
-          {/* this is how to redirect in react-router v6 */}
-          <Route
-            path="/checkout"
-            element={cartIsEmpty ? <Navigate to="/" /> : <p>checkout</p>}
-          />
+          <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login />} />
+          <Route path="/signup" element={isLoggedIn ? <Navigate to="/" /> : <Signup />} />
         </Routes>
       </AuthContext.Provider>
     </div>
