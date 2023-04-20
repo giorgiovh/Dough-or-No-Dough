@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+
+// context
+import { AuthContext } from '../../context/auth-context'
 
 // styles
 import styles from './Login.module.css'
@@ -7,9 +10,12 @@ export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const auth = useContext(AuthContext)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(email, password);
+    auth.login()
   }
 
   return (
