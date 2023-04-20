@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // pages & components
 import { Home } from './pages/home/Home';
@@ -7,6 +8,8 @@ import { Signup } from './pages/signup/Signup';
 import Navbar from "./components/Navbar";
 
 function App() {
+  const [cartIsEmpty] = useState(true)
+
   return (
     <div className="App">
       <Navbar />
@@ -14,6 +17,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
+        {/* this is how to redirect in react-router v6 */}
+        <Route 
+          path="/checkout" 
+          element={cartIsEmpty ? <Navigate to="/" /> : <p>checkout</p>} 
+        />
       </Routes>
     </div>
   );
