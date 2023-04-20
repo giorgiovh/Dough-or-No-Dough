@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <ul>
-        <li className={styles.title}>myMoney</li>
+        <li className={styles.title}>Dough or No Dough</li>
 
         {!auth.isLoggedIn && (
           <>
