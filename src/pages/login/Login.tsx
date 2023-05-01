@@ -12,9 +12,27 @@ export const Login = () => {
 
   const auth = useContext(AuthContext)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(email, password);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      })
+
+      const responseData = await response.json()
+      console.log(responseData);
+    } catch (err) {
+      console.log(err);
+    }
+
     auth.login()
   }
 
