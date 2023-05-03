@@ -30,12 +30,19 @@ export const Login = () => {
       })
 
       const responseData = await response.json()
-      console.log(responseData);
-    } catch (err) {
+      
+      // this is to check whether or not the response was code 400 or 500 and if it was, throw an error
+      if (!response.ok) {
+        throw new Error(responseData.message)
+      }
+      console.log(responseData)
+      setIsLoading(false)
+      auth.login()
+    } catch (err: any) {
       console.log(err);
+      setIsLoading(false)
+      setError(err.message)
     }
-
-    auth.login()
   }
 
   return (
@@ -57,7 +64,9 @@ export const Login = () => {
           value={password}
         />
       </label>
-      <button className="btn">Log In</button>
+      {!isLoading && <button className="btn">log in</button>}
+      {isLoading && <button className="btn" disabled>loading</button>}
+      {error && <p>{error}</p>}
     </form>
   )
 }

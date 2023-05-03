@@ -33,6 +33,8 @@ export const Signup = () => {
       })
 
       const responseData = await response.json()
+      
+      // this is to check whether or not the response was code 400 or 500 and if it was, throw an error
       if (!response.ok) {
         throw new Error(responseData.message)
       }
