@@ -10,6 +10,8 @@ export const Signup = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const auth = useContext(AuthContext)
 
@@ -17,6 +19,7 @@ export const Signup = () => {
     e.preventDefault()
 
     try {
+      setIsLoading(true)
       const response = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
         headers: {
@@ -30,12 +33,17 @@ export const Signup = () => {
       })
 
       const responseData = await response.json()
+      if (!response.ok) {
+        throw new Error(responseData.message)
+      }
       console.log(responseData);
-    } catch (err) {
+      setIsLoading(false)
+      auth.login()
+    } catch (err: any) {
       console.log(err);
+      setIsLoading(false)
+      setError(err.message)
     }
-
-    auth.login()
   }
 
   return (
@@ -65,7 +73,9 @@ export const Signup = () => {
           value={name}
         />
       </label>
-      <button className="btn">Sign up</button>
+      {!isLoading && <button className="btn">sign up</button>}
+      {isLoading && <button className="btn" disabled>loading</button>}
+      {error && <p>{error}</p>}
     </form>
   )
 }
