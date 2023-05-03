@@ -18,6 +18,7 @@ export const Login = () => {
     e.preventDefault()
 
     try {
+      setIsLoading(true)
       const response = await fetch('http://localhost:5000/api/users/login', {
         method: 'POST',
         headers: {
@@ -30,16 +31,14 @@ export const Login = () => {
       })
 
       const responseData = await response.json()
-      
+
       // this is to check whether or not the response was code 400 or 500 and if it was, throw an error
       if (!response.ok) {
         throw new Error(responseData.message)
       }
-      console.log(responseData)
       setIsLoading(false)
       auth.login()
     } catch (err: any) {
-      console.log(err);
       setIsLoading(false)
       setError(err.message)
     }

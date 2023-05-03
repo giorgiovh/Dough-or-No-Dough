@@ -38,11 +38,9 @@ export const Signup = () => {
       if (!response.ok) {
         throw new Error(responseData.message)
       }
-      console.log(responseData);
       setIsLoading(false)
       auth.login()
     } catch (err: any) {
-      console.log(err);
       setIsLoading(false)
       setError(err.message)
     }
