@@ -24,16 +24,21 @@ export const useHttpClient = () => {
 
         const responseData = await response.json()
 
+        // clear the abort controllers that belong to the request which just completed
+        activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortCntrl)
+
+        // this is to check whether or not the response was code 400 or 500 and if it was, throw an error
         if (!response.ok) {
           throw new Error(responseData.message)
         }
-
+        
+        setIsLoading(false)
         return responseData
       } catch (err) {
         setError(err.message)
+        setIsLoading(false)
+        throw err
       }
-
-      setIsLoading(false)
     },
     []
   )

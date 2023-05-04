@@ -3,15 +3,18 @@ import { useState, useContext } from 'react'
 // context
 import { AuthContext } from '../../context/auth-context'
 
+// hooks
+import { useHttpClient } from '../../hooks/http-hook'
+
 // styles
 import styles from './Signup.module.css'
+
 
 export const Signup = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const auth = useContext(AuthContext)
 
@@ -19,30 +22,21 @@ export const Signup = () => {
     e.preventDefault()
 
     try {
-      setIsLoading(true)
-      const response = await fetch('http://localhost:5000/api/users/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      await sendRequest(
+        'http://localhost:5000/api/users/signup',
+        'POST',
+        JSON.stringify({
           name,
           email,
           password
-        })
-      })
-
-      const responseData = await response.json()
-      
-      // this is to check whether or not the response was code 400 or 500 and if it was, throw an error
-      if (!response.ok) {
-        throw new Error(responseData.message)
-      }
-      setIsLoading(false)
+        }),
+        {
+          'Content-Type': 'application/json'
+        },
+      )
       auth.login()
-    } catch (err: any) {
-      setIsLoading(false)
-      setError(err.message)
+    } catch (err) {
+      // no need to have anything in this catch block as errors are already handled in the sendRequest() function. The try/catch here is only used so that auth.login() is only called if there was no error in sendRequest()
     }
   }
 
