@@ -20,7 +20,7 @@ export const Login = () => {
     e.preventDefault()
 
     try {
-      await sendRequest(
+      const responseData = await sendRequest(
         'http://localhost:5000/api/users/login',
         'POST',
         JSON.stringify({
@@ -29,9 +29,9 @@ export const Login = () => {
         }),
         {
           'Content-Type': 'application/json'
-        },
+        }
       )
-      auth.login()
+      auth.login(responseData.user.id)
     } catch (err) {
       // no need to have anything in this catch block as errors are already handled in the sendRequest() function. The try/catch here is only used so that auth.login() is only called if there was no error in sendRequest()
     }

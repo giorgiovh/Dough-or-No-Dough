@@ -10,19 +10,22 @@ import { AuthContext } from './context/auth-context'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userId, setUserId] = useState(null)
 
   // we wrap the function below with useCallback so that it is not recreated unnecessarily. This avoids infite loops. The dependency array is empty which means it will never be recreated
-  const login = useCallback(() => {
+  const login = useCallback((uid) => {
     setIsLoggedIn(true)
+    setUserId(uid)
   }, [])
 
   const logout = useCallback(() => {
     setIsLoggedIn(false)
+    setUserId(null)
   }, [])
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{isLoggedIn: isLoggedIn, login: login, logout: logout}}>
+      <AuthContext.Provider value={{isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout}}>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
