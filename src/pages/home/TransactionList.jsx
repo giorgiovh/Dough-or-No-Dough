@@ -1,36 +1,42 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 
 // hooks
 import { useHttpClient } from '../../hooks/http-hook';
 
-// styles
-import styles from './Home.module.css'
+// context
+import { AuthContext } from '../../context/auth-context'
 
 export default function TransactionList() {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const [loadedUsers, setLoadedUsers] = useState([])
+  const [loadedTransactions, setLoadedTransactions] = useState([])
 
-  
+  const auth = useContext(AuthContext)
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchTransactions = async () => {
       try {
-        const responseData = await sendRequest('http://localhost:5000/api/users')
+        const responseData = await sendRequest(`http://localhost:5000/api/transactions/user/${auth.userId}`)
 
-        setLoadedUsers(responseData.users)
+        setLoadedTransactions(responseData.transactions)
       } catch (err) {
         // no need to have anything in this catch block as errors are already handled in the sendRequest() function.
       }
     }
-    fetchUsers()
-  }, [sendRequest]) // Since we wrapped sendRequest with useCallback in our custom hook, having it in the dependency array won't create an infinite loop
+    if (auth && auth.userId) {
+      fetchTransactions()
+    }
+  }, [sendRequest, auth, auth.userId]) // Since we wrapped sendRequest with useCallback in our custom hook, having it in the dependency array won't create an infinite loop
 
   return (
     <>
       <h2>Transactions</h2>
-      {!isLoading && loadedUsers && loadedUsers.length > 0 && loadedUsers.map(user => (
-        <p key={user.name}>{user.name}</p> // Make sure to include a key prop for each rendered item
+      {!isLoading && loadedTransactions && loadedTransactions.length > 0 && loadedTransactions.map(trans => (
+        <div key={trans.id}>
+          <p>{trans.name}</p>
+          <p>${trans.amount}</p>
+        </div>
       ))}
+      {!auth.userId && <p>Log in to see your transactions!</p>}
       {isLoading && <p>loading</p>}
       {error && <p>{error}</p>}
     </>
