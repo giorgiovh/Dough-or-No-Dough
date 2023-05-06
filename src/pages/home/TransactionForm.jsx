@@ -40,19 +40,19 @@ export const TransactionForm = () => {
       <form onSubmit={handleSubmit}>
         <label>
           <span>Transaction name:</span>
-          <input 
+          <input
             type="text"
             required
-            onChange={(e) => {setName(e.target.value)}}
+            onChange={(e) => { setName(e.target.value) }}
             value={name}
           />
         </label>
         <label>
           <span>Amount:</span>
-          <input 
+          <input
             type="number"
             required
-            onChange={(e) => {setAmount(e.target.value)}}
+            onChange={(e) => { setAmount(e.target.value) }}
             value={amount}
           />
         </label>

@@ -5,6 +5,7 @@ import { useHttpClient } from '../../hooks/http-hook';
 
 // context
 import { AuthContext } from '../../context/auth-context'
+import Transaction from '../../components/Transaction';
 
 export default function TransactionList() {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
@@ -34,8 +35,7 @@ export default function TransactionList() {
       <h2>Transactions</h2>
       {!isLoading && loadedTransactions && loadedTransactions.length > 0 && loadedTransactions.map(transaction => (
         <div key={transaction.id}>
-          <p>{transaction.name}</p>
-          <p>${transaction.amount}</p>
+          <Transaction id={transaction.id} name={transaction.name} amount={transaction.amount}/>
         </div>
       ))}
       {!auth.userId && <p>Log in to see your transactions!</p>}
