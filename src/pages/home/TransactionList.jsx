@@ -24,16 +24,18 @@ export default function TransactionList() {
     }
     if (auth && auth.userId) {
       fetchTransactions()
+    } else {
+      setLoadedTransactions([])
     }
   }, [sendRequest, auth, auth.userId]) // Since we wrapped sendRequest with useCallback in our custom hook, having it in the dependency array won't create an infinite loop
 
   return (
     <>
       <h2>Transactions</h2>
-      {!isLoading && loadedTransactions && loadedTransactions.length > 0 && loadedTransactions.map(trans => (
-        <div key={trans.id}>
-          <p>{trans.name}</p>
-          <p>${trans.amount}</p>
+      {!isLoading && loadedTransactions && loadedTransactions.length > 0 && loadedTransactions.map(transaction => (
+        <div key={transaction.id}>
+          <p>{transaction.name}</p>
+          <p>${transaction.amount}</p>
         </div>
       ))}
       {!auth.userId && <p>Log in to see your transactions!</p>}
