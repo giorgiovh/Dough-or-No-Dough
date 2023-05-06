@@ -5,14 +5,37 @@ import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
+// hooks
+import { useHttpClient } from '../../hooks/http-hook'
+
 export const UpdateTransactionForm = ({ transaction }) => {
   const [name, setName] = useState(transaction.name)
   const [amount, setAmount] = useState(transaction.amount)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/transactions/${transaction.id}`,
+        'PATCH',
+        JSON.stringify({
+          name,
+          amount
+        }),
+        {
+          'Content-Type': 'application/json'
+        }
+      )
+
+      navigate('/')
+    } catch (err) {
+      // no need to do anything here since we're setting the error state in sendRequest()
+    }
   }
 
   return (
