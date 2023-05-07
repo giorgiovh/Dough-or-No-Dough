@@ -1,15 +1,29 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
+
+// mui
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
 
-export default function Transaction({ id, name, amount }) {
+// hooks
+import { useHttpClient } from '../hooks/http-hook';
+
+export default function Transaction({ id, name, amount, onDelete }) {
 
   const navigate = useNavigate()
+
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+
+  const handleDelete = async () => {
+    try {
+      await sendRequest(`http://localhost:5000/api/transactions/${id}`, 'DELETE')
+      onDelete(id)
+    } catch (err) {
+      // no need to do anything here since we're setting the error state in sendRequest()
+    }
+  }
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -28,7 +42,12 @@ export default function Transaction({ id, name, amount }) {
         >
           Edit
         </Button>
-        <Button size="small">Delete</Button>
+        <Button 
+          size="small"
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
       </CardActions>
     </Card>
   );

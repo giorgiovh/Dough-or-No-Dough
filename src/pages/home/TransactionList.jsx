@@ -30,12 +30,16 @@ export default function TransactionList() {
     }
   }, [sendRequest, auth, auth.userId]) // Since we wrapped sendRequest with useCallback in our custom hook, having it in the dependency array won't create an infinite loop
 
+  const onDeleteTransaction = (deletedTransId) => {
+    setLoadedTransactions(prevTransactions => prevTransactions.filter(trans => trans.id !== deletedTransId))
+  }
+
   return (
     <>
       <h2>Transactions</h2>
       {!isLoading && loadedTransactions && loadedTransactions.length > 0 && loadedTransactions.map(transaction => (
         <div key={transaction.id}>
-          <Transaction id={transaction.id} name={transaction.name} amount={transaction.amount}/>
+          <Transaction id={transaction.id} name={transaction.name} amount={transaction.amount} onDelete={onDeleteTransaction}/>
         </div>
       ))}
       {!auth.userId && <p>Log in to see your transactions!</p>}
