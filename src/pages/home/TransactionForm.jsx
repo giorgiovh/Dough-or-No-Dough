@@ -6,7 +6,7 @@ import { useHttpClient } from "../../hooks/http-hook"
 // context
 import { AuthContext } from "../../context/auth-context"
 
-export const TransactionForm = () => {
+export const TransactionForm = ({setLoadedTransactions}) => {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
 
@@ -17,7 +17,7 @@ export const TransactionForm = () => {
     e.preventDefault()
 
     try {
-      await sendRequest(
+      const responseData = await sendRequest(
         'http://localhost:5000/api/transactions',
         'POST',
         JSON.stringify({
@@ -27,6 +27,9 @@ export const TransactionForm = () => {
         }),
         { 'Content-Type': "application/json" }
       )
+
+      // this sets the loadedTransaction state with the updated list in the parent component so that the user doesn't have to manually refresh the page to see the updated list
+      setLoadedTransactions(responseData.transactions)
 
       // Redirect the user to a different page
     } catch (err) {

@@ -1,38 +1,14 @@
-import { useEffect, useState, useContext } from 'react'
+import { useContext } from 'react'
 
-// hooks
-import { useHttpClient } from '../../hooks/http-hook';
+// components
+import Transaction from '../../components/Transaction'
 
 // context
 import { AuthContext } from '../../context/auth-context'
-import Transaction from '../../components/Transaction';
 
-export default function TransactionList() {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const [loadedTransactions, setLoadedTransactions] = useState([])
+export default function TransactionList({ loadedTransactions, onDeleteTransaction, isLoading, error }) {
 
   const auth = useContext(AuthContext)
-
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const responseData = await sendRequest(`http://localhost:5000/api/transactions/user/${auth.userId}`)
-
-        setLoadedTransactions(responseData.transactions)
-      } catch (err) {
-        // no need to have anything in this catch block as errors are already handled in the sendRequest() function.
-      }
-    }
-    if (auth && auth.userId) {
-      fetchTransactions()
-    } else {
-      setLoadedTransactions([])
-    }
-  }, [sendRequest, auth, auth.userId]) // Since we wrapped sendRequest with useCallback in our custom hook, having it in the dependency array won't create an infinite loop
-
-  const onDeleteTransaction = (deletedTransId) => {
-    setLoadedTransactions(prevTransactions => prevTransactions.filter(trans => trans.id !== deletedTransId))
-  }
 
   return (
     <>
