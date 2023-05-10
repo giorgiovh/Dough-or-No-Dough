@@ -21,7 +21,12 @@ export const Home = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const responseData = await sendRequest(`http://localhost:5000/api/transactions/user/${auth.userId}`)
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/transactions/user/${auth.userId}`,
+          'GET',
+          null,
+          {'Authorization': 'Bearer ' + auth.token}
+        )
 
         setLoadedTransactions(responseData.transactions)
       } catch (err) {

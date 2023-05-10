@@ -6,7 +6,7 @@ import { useHttpClient } from "../../hooks/http-hook"
 // context
 import { AuthContext } from "../../context/auth-context"
 
-export const TransactionForm = ({setLoadedTransactions}) => {
+export const TransactionForm = ({ setLoadedTransactions }) => {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
 
@@ -25,9 +25,11 @@ export const TransactionForm = ({setLoadedTransactions}) => {
           amount,
           creator: auth.userId
         }),
-        { 'Content-Type': "application/json" },
-        { Authorization: 'Bearer ' + auth.token }
-      )
+        {
+          'Content-Type': "application/json",
+          'Authorization': 'Bearer ' + auth.token
+        }
+      )      
 
       // this sets the loadedTransaction state with the updated list in the parent component so that the user doesn't have to manually refresh the page to see the updated list
       setLoadedTransactions(responseData.transactions)
