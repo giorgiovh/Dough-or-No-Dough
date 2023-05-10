@@ -25,7 +25,8 @@ export const TransactionForm = ({setLoadedTransactions}) => {
           amount,
           creator: auth.userId
         }),
-        { 'Content-Type': "application/json" }
+        { 'Content-Type': "application/json" },
+        { Authorization: 'Bearer ' + auth.token }
       )
 
       // this sets the loadedTransaction state with the updated list in the parent component so that the user doesn't have to manually refresh the page to see the updated list

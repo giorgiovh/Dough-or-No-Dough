@@ -14,28 +14,36 @@ import { UpdateTransaction } from "./pages/update/UpdateTransaction";
 import Navbar from "./components/Navbar";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [token, setToken] = useState(null)
   const [userId, setUserId] = useState(null)
 
-  // we wrap the function below with useCallback so that it is not recreated unnecessarily. This avoids infite loops. The dependency array is empty which means it will never be recreated
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true)
+  // we wrap the function below with useCallback so that it is not recreated unnecessarily. This avoids infinite loops. The dependency array is empty which means it will never be recreated
+  const login = useCallback((uid, token) => {
+    setToken(token)
     setUserId(uid)
   }, [])
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false)
+    setToken(null)
     setUserId(null)
   }, [])
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout}}>
+      <AuthContext.Provider 
+        value={{
+          isLoggedIn: !!token,
+          token: token, 
+          userId: userId, 
+          login: login, 
+          logout: logout
+        }}
+      >
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login />} />
-          <Route path="/signup" element={isLoggedIn ? <Navigate to="/" /> : <Signup />} />
+          <Route path="/login" element={token ? <Navigate to="/" /> : <Login />} />
+          <Route path="/signup" element={token ? <Navigate to="/" /> : <Signup />} />
           <Route path="/transactions/:id/edit" element={<UpdateTransaction />} />
         </Routes>
       </AuthContext.Provider>
