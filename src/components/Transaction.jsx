@@ -1,3 +1,4 @@
+// react
 import { useNavigate } from 'react-router-dom';
 
 // mui
@@ -9,16 +10,28 @@ import Typography from '@mui/material/Typography';
 
 // hooks
 import { useHttpClient } from '../hooks/http-hook';
+import { useContext } from 'react';
+
+// context
+import { AuthContext } from '../context/auth-context';
 
 export default function Transaction({ id, name, amount, onDelete }) {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+
+  const auth = useContext(AuthContext)
 
   const navigate = useNavigate()
 
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
-
   const handleDelete = async () => {
     try {
-      await sendRequest(`http://localhost:5000/api/transactions/${id}`, 'DELETE')
+      await sendRequest(
+        `http://localhost:5000/api/transactions/${id}`, 
+        'DELETE',
+        null,
+        {
+          'Authorization': 'Bearer ' + auth.token
+        }
+      )
       onDelete(id)
     } catch (err) {
       // no need to do anything here since we're setting the error state in sendRequest()

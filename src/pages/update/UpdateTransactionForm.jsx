@@ -1,4 +1,5 @@
-import { useState } from 'react'
+// react
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // mui
@@ -8,9 +9,14 @@ import TextField from '@mui/material/TextField'
 // hooks
 import { useHttpClient } from '../../hooks/http-hook'
 
+// context
+import { AuthContext } from '../../context/auth-context'
+
 export const UpdateTransactionForm = ({ transaction }) => {
   const [name, setName] = useState(transaction.name)
   const [amount, setAmount] = useState(transaction.amount)
+
+  const auth = useContext(AuthContext)
 
   const navigate = useNavigate()
 
@@ -28,7 +34,8 @@ export const UpdateTransactionForm = ({ transaction }) => {
           amount
         }),
         {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + auth.token
         }
       )
 

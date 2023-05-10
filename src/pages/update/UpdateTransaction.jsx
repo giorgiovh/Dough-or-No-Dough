@@ -1,20 +1,33 @@
-import { useState, useEffect } from 'react'
+// react
+import { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 
 // mui
 import { useHttpClient } from '../../hooks/http-hook'
 import { UpdateTransactionForm } from './UpdateTransactionForm'
 
+// context
+import { AuthContext } from '../../context/auth-context'
+
 export const UpdateTransaction = () => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const [transaction, setTransaction] = useState({})
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+
+  const auth = useContext(AuthContext)
 
   const { id } = useParams()
 
   useEffect(() => {
     const fetchTransaction = async () => {
-      try {        
-        const responseData = await sendRequest(`http://localhost:5000/api/transactions/${id}`)
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/transactions/${id}`,
+          'GET',
+          null,
+          {
+            'Authorization': 'Bearer ' + auth.token
+          }
+        )
 
         setTransaction(responseData.transaction)
       } catch (err) {
@@ -24,11 +37,11 @@ export const UpdateTransaction = () => {
 
     fetchTransaction()
   }, [id, sendRequest])
-  
+
   return (
     <>
       <h2>Update Transaction</h2>
-      {!isLoading && transaction && <UpdateTransactionForm transaction={transaction}/>}
+      {!isLoading && transaction && <UpdateTransactionForm transaction={transaction} />}
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
     </>
