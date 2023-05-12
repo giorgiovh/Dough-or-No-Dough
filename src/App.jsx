@@ -20,6 +20,13 @@ function App() {
   // we wrap the function below with useCallback so that it is not recreated unnecessarily. This avoids infinite loops. The dependency array is empty which means it will never be recreated
   const login = useCallback((uid, token) => {
     setToken(token)
+
+    // this is so that we remain authenticated even after refreshing the page
+    localStorage.setItem(
+      'userData', 
+      JSON.stringify({ userId: uid, token: token })
+    )
+    
     setUserId(uid)
   }, [])
 
