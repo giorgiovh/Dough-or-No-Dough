@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // context
@@ -26,13 +26,22 @@ function App() {
       'userData', 
       JSON.stringify({ userId: uid, token: token })
     )
-    
+
     setUserId(uid)
   }, [])
+
+  useEffect(() => {
+    // this turns userData from JSON into a js object
+    const storedData = JSON.parse(localStorage.getItem('userData'))
+    if (storedData && storedData.token) {
+      login(storedData.userId, storedData.token)
+    }
+  }, [login])
 
   const logout = useCallback(() => {
     setToken(null)
     setUserId(null)
+    localStorage.removeItem('userData')
   }, [])
 
   return (
