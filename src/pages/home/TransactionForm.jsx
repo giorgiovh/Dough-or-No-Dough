@@ -22,8 +22,7 @@ export const TransactionForm = ({ setLoadedTransactions }) => {
         'POST',
         JSON.stringify({
           name,
-          amount,
-          creator: auth.userId
+          amount
         }),
         {
           'Content-Type': "application/json",
