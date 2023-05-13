@@ -13,8 +13,11 @@ import { UpdateTransaction } from "./pages/update/UpdateTransaction";
 // components
 import Navbar from "./components/Navbar";
 
+let logoutTimer;
+
 function App() {
   const [token, setToken] = useState(null)
+  const [tokenExpirationDate, setTokenExpirationDate] = useState()
   const [userId, setUserId] = useState(null)
 
   // we wrap the function below with useCallback so that it is not recreated unnecessarily. This avoids infinite loops. The dependency array is empty which means it will never be recreated
@@ -22,6 +25,7 @@ function App() {
     setToken(token)
     setUserId(uid)
     const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60)
+    setTokenExpirationDate(tokenExpirationDate)
     // this is so that we remain authenticated even after refreshing the page
     localStorage.setItem(
       'userData', 
@@ -33,6 +37,22 @@ function App() {
     )
   }, [])
 
+  const logout = useCallback(() => {
+    setToken(null)
+    setTokenExpirationDate(null)
+    setUserId(null)
+    localStorage.removeItem('userData')
+  }, [])
+
+  useEffect(() => {
+    if (token && tokenExpirationDate) {
+      const remainingTime = tokenExpirationDate.getTime() - new Date().getTime()
+      logoutTimer = setTimeout(logout, remainingTime)
+    } else {
+      clearTimeout(logoutTimer)
+    }
+  }, [token, logout, tokenExpirationDate])
+
   useEffect(() => {
     // this turns userData from JSON into a js object
     const storedData = JSON.parse(localStorage.getItem('userData'))
@@ -40,12 +60,6 @@ function App() {
       login(storedData.userId, storedData.token, new Date(storedData.expiration))
     }
   }, [login])
-
-  const logout = useCallback(() => {
-    setToken(null)
-    setUserId(null)
-    localStorage.removeItem('userData')
-  }, [])
 
   return (
     <div className="App">
