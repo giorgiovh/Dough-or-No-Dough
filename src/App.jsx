@@ -18,23 +18,26 @@ function App() {
   const [userId, setUserId] = useState(null)
 
   // we wrap the function below with useCallback so that it is not recreated unnecessarily. This avoids infinite loops. The dependency array is empty which means it will never be recreated
-  const login = useCallback((uid, token) => {
+  const login = useCallback((uid, token, expirationDate) => {
     setToken(token)
-
+    setUserId(uid)
+    const tokenExpirationDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60)
     // this is so that we remain authenticated even after refreshing the page
     localStorage.setItem(
       'userData', 
-      JSON.stringify({ userId: uid, token: token })
+      JSON.stringify({ 
+        userId: uid, 
+        token: token,
+        expiration: tokenExpirationDate.toISOString() 
+      })
     )
-
-    setUserId(uid)
   }, [])
 
   useEffect(() => {
     // this turns userData from JSON into a js object
     const storedData = JSON.parse(localStorage.getItem('userData'))
-    if (storedData && storedData.token) {
-      login(storedData.userId, storedData.token)
+    if (storedData && storedData.token && new Date(storedData.expiration) > new Date()) {
+      login(storedData.userId, storedData.token, new Date(storedData.expiration))
     }
   }, [login])
 
