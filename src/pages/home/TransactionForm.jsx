@@ -37,6 +37,8 @@ export const TransactionForm = ({ setLoadedTransactions }) => {
     } catch (err) {
       // no need to do anything here since we're setting the error state in sendRequest()
     }
+    setName('')
+    setAmount('')
   }
 
   return (

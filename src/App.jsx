@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar";
 
 // hooks
 import { useAuth } from "./hooks/auth-hook";
+import { UnauthenticatedScreen } from "./components/UnauthenticatedScreen";
 
 function App() {
   const { token, login, logout, userId } = useAuth()
@@ -31,7 +32,7 @@ function App() {
       >
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={token ? <Home /> : <UnauthenticatedScreen />} />
           <Route path="/login" element={token ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup" element={token ? <Navigate to="/" /> : <Signup />} />
           <Route path="/transactions/:id/edit" element={<UpdateTransaction />} />
