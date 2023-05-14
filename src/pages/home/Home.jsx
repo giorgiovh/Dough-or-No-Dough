@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
-
 import { useHttpClient } from '../../hooks/http-hook'
+import { Grid } from '@mui/material'
 
 // components
 import { TransactionForm } from './TransactionForm'
@@ -45,12 +45,16 @@ export const Home = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <TransactionList loadedTransactions={loadedTransactions} onDeleteTransaction={onDeleteTransaction} isLoading={isLoading} error={error}/>
-      </div>
-      <div className={styles.sidebar}>
-        <TransactionForm setLoadedTransactions={setLoadedTransactions}/>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={4}>
+            <TransactionForm setLoadedTransactions={setLoadedTransactions}/>
+          </Grid>
+          <Grid item xs={12} sm={6} md={8}>
+            <TransactionList loadedTransactions={loadedTransactions} onDeleteTransaction={onDeleteTransaction} isLoading={isLoading} error={error}/>
+          </Grid>
+        </Grid>
       </div>
     </div>
   )

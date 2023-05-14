@@ -39,7 +39,7 @@ export default function Transaction({ id, name, amount, onDelete }) {
   }
 
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card>
       <CardContent>
         <Typography variant="h5" component="div">
           {name}

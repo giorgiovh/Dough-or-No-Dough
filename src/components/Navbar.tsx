@@ -1,14 +1,20 @@
+// react
 import { useContext } from 'react'
-import { Link } from "react-router-dom"
-
-// styles
-import styles from './Navbar.module.css'
+import { Link, useNavigate } from "react-router-dom"
 
 // context
 import { AuthContext } from "../context/auth-context"
 
+// mui
+import Button from '@mui/material/Button'
+
+// styles
+import styles from './Navbar.module.css'
+
 export default function Navbar() {
   const auth = useContext(AuthContext)
+
+  const navigate = useNavigate()
 
   return (
     <nav className={styles.navbar}>
@@ -17,17 +23,14 @@ export default function Navbar() {
 
         {!auth.isLoggedIn && (
           <>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/signup">Signup</Link></li>
+            <li><Button onClick={() => navigate('/login')} color="inherit">Log In</Button></li>
+            <li><Button onClick={() => navigate('/signup')} color="inherit">Sign Up</Button></li>
           </>
         )}
         {auth.isLoggedIn && (
           <>
-            <li>hello!</li>
             <li>
-              <button className="btn" onClick={() => auth.logout()}>
-                Logout
-              </button>
+              <Button onClick={() => auth.logout()} color="inherit">Log out</Button>
             </li>
           </>
         )}
