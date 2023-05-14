@@ -35,7 +35,7 @@ function App() {
           <Route path="/" element={token ? <Home /> : <UnauthenticatedScreen />} />
           <Route path="/login" element={token ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup" element={token ? <Navigate to="/" /> : <Signup />} />
-          <Route path="/transactions/:id/edit" element={<UpdateTransaction />} />
+          <Route path="/transactions/:id/edit" element={token ? <UpdateTransaction /> : <Navigate to="/" />} />
         </Routes>
       </AuthContext.Provider>
     </div>

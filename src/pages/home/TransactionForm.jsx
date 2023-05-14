@@ -6,6 +6,10 @@ import { useHttpClient } from "../../hooks/http-hook"
 // context
 import { AuthContext } from "../../context/auth-context"
 
+// mui
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+
 export const TransactionForm = ({ setLoadedTransactions }) => {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
@@ -28,7 +32,7 @@ export const TransactionForm = ({ setLoadedTransactions }) => {
           'Content-Type': "application/json",
           'Authorization': 'Bearer ' + auth.token
         }
-      )      
+      )
 
       // this sets the loadedTransaction state with the updated list in the parent component so that the user doesn't have to manually refresh the page to see the updated list
       setLoadedTransactions(responseData.transactions)
@@ -45,26 +49,45 @@ export const TransactionForm = ({ setLoadedTransactions }) => {
     <>
       <h3>Add a Transaction</h3>
       <form onSubmit={handleSubmit}>
-        <label>
-          <span>Transaction name:</span>
-          <input
-            type="text"
-            required
-            onChange={(e) => { setName(e.target.value) }}
-            value={name}
-          />
-        </label>
-        <label>
-          <span>Amount:</span>
-          <input
-            type="number"
-            required
-            onChange={(e) => { setAmount(e.target.value) }}
-            value={amount}
-          />
-        </label>
-        {!isLoading && <button>Add Transaction</button>}
-        {isLoading && <button disabled>loading</button>}
+        <TextField
+          id="outlined-basic"
+          label="Name"
+          variant="standard"
+          type="text"
+          onChange={e => setName(e.target.value)}
+          value={name}
+          required
+          margin="normal"
+        />
+        <br />
+        <TextField
+          id="outlined-basic"
+          label="Amount"
+          variant="standard"
+          type="number"
+          onChange={e => setAmount(e.target.value)}
+          value={amount}
+          required
+          margin="normal"
+        />
+        <br />
+        {!isLoading && (
+          <Button
+            type='submit'
+            autoFocus
+            variant="contained"
+          >
+            Submit
+          </Button>
+        )}
+        {isLoading && (
+          <Button
+            variant="contained"
+            disabled
+          >
+            loading
+          </Button>
+        )}
         {error && <p>{error}</p>}
       </form>
     </>

@@ -36,14 +36,14 @@ export const UpdateTransaction = () => {
     }
 
     fetchTransaction()
-  }, [id, sendRequest])
+  }, [id, sendRequest, auth.token])
 
   return (
-    <>
+    <div className='page'>
       <h2>Update Transaction</h2>
       {!isLoading && transaction && <UpdateTransactionForm transaction={transaction} />}
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-    </>
+    </div>
   )
 }

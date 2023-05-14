@@ -27,3 +27,8 @@ ul {
   background: #1f9751;
   color: #fff;
 }
+
+.page {
+  max-width: 960px;
+  margin: 15px auto;
+}
