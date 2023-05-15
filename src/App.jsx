@@ -21,12 +21,12 @@ function App() {
   const { token, login, logout, userId } = useAuth()
   return (
     <div className="App">
-      <AuthContext.Provider 
+      <AuthContext.Provider
         value={{
           isLoggedIn: !!token,
-          token: token, 
-          userId: userId, 
-          login: login, 
+          token: token,
+          userId: userId,
+          login: login,
           logout: logout
         }}
       >
