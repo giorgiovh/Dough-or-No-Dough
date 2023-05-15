@@ -1,16 +1,23 @@
-import { useState, useContext } from 'react'
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useContext, useState } from 'react';
+import { useHttpClient } from '../../hooks/http-hook';
+import { AuthContext } from '../../context/auth-context';
 
-// context
-import { AuthContext } from '../../context/auth-context'
+const theme = createTheme();
 
-// hooks
-import { useHttpClient } from '../../hooks/http-hook'
-
-// styles
-import styles from './Signup.module.css'
-
-
-export const Signup = () => {
+export default function Signup() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -41,35 +48,94 @@ export const Signup = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles['signup-form']}>
-      <h2>Signup</h2>
-      <label>
-        <span>email:</span>
-        <input
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-      </label>
-      <label>
-        <span>password:</span>
-        <input
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-      </label>
-      <label>
-        <span>display name:</span>
-        <input
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
-      </label>
-      {!isLoading && <button className="btn">sign up</button>}
-      {isLoading && <button className="btn" disabled>loading</button>}
-      {error && <p>{error}</p>}
-    </form>
-  )
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="displayName"
+                  required
+                  fullWidth
+                  id="displayName"
+                  label="Display Name"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                />
+              </Grid>
+            </Grid>
+            {!isLoading && (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign Up
+              </Button>
+            )}
+            {isLoading && (
+              <Button
+                disabled
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Loading
+              </Button>
+            )}
+            {error && <p>{error}</p>}
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
 }

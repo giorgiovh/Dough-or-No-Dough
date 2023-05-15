@@ -6,8 +6,8 @@ import { AuthContext } from './context/auth-context'
 
 // pages
 import { Home } from './pages/home/Home';
-import { Signup } from './pages/signup/Signup';
 import { UpdateTransaction } from "./pages/update/UpdateTransaction";
+import Login from "./pages/login/Login";
 
 // components
 import Navbar from "./components/Navbar";
@@ -15,8 +15,7 @@ import Navbar from "./components/Navbar";
 // hooks
 import { useAuth } from "./hooks/auth-hook";
 import { UnauthenticatedScreen } from "./components/UnauthenticatedScreen";
-import Login from "./pages/login/Login";
-import MUISignup from "./pages/signup/MUISignup";
+import Signup from "./pages/signup/Signup";
 
 function App() {
   const { token, login, logout, userId } = useAuth()
@@ -35,8 +34,7 @@ function App() {
         <Routes>
           <Route path="/" element={token ? <Home /> : <UnauthenticatedScreen />} />
           <Route path="/login" element={token ? <Navigate to="/" /> : <Login />} />
-          {/* <Route path="/signup" element={token ? <Navigate to="/" /> : <Signup />} /> */}
-          <Route path="/signup" element={token ? <Navigate to="/" /> : <MUISignup />} />
+          <Route path="/signup" element={token ? <Navigate to="/" /> : <Signup />} />
           <Route path="/transactions/:id/edit" element={token ? <UpdateTransaction /> : <Navigate to="/" />} />
         </Routes>
       </AuthContext.Provider>
