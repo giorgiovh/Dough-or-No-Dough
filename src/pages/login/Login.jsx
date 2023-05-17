@@ -20,6 +20,9 @@ import { useHttpClient } from '../../hooks/http-hook';
 // context
 import { AuthContext } from '../../context/auth-context';
 
+// image
+import doughImage from '../../images/dough-dollar-sign.png'
+
 const theme = createTheme();
 
 export default function Login() {
@@ -60,7 +63,7 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: `url(${doughImage})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -82,7 +85,7 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Log in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -119,7 +122,7 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Log In
               </Button>
               <Grid container justifyContent="flex-end">
                 {/* <Grid item xs>

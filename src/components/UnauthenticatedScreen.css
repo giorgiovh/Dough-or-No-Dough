@@ -1,0 +1,21 @@
+.unauth-screen {
+  margin-left: 7vw;
+  margin-right: 7vw;
+}
+
+.landing-page-left-column {
+  padding: 16px;
+}
+
+.landing-page-left-column > .MuiGrid-container:last-child {
+  margin-top: 20px;
+}
+
+#button {
+  padding: 10px 20px;
+}
+
+.video-modal {
+  max-width: 800px;
+  max-height: 450px;
+}

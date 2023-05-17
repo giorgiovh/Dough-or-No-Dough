@@ -11,10 +11,10 @@ import Login from "./pages/login/Login";
 
 // components
 import Navbar from "./components/Navbar";
+import UnauthenticatedScreen from "./components/UnauthenticatedScreen";
 
 // hooks
 import { useAuth } from "./hooks/auth-hook";
-import { UnauthenticatedScreen } from "./components/UnauthenticatedScreen";
 import Signup from "./pages/signup/Signup";
 
 function App() {
