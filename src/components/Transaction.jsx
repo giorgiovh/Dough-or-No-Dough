@@ -15,6 +15,9 @@ import { useContext } from 'react';
 // context
 import { AuthContext } from '../context/auth-context';
 
+// styles
+import './Transaction.css'
+
 export default function Transaction({ id, name, amount, onDelete }) {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
@@ -39,7 +42,7 @@ export default function Transaction({ id, name, amount, onDelete }) {
   }
 
   return (
-    <Card>
+    <Card className='card'>
       <CardContent>
         <Typography variant="h5" component="div">
           {name}
