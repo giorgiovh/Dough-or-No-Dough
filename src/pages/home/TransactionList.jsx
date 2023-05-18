@@ -12,7 +12,8 @@ export default function TransactionList({ loadedTransactions, onDeleteTransactio
         </div>
       ))}
       {isLoading && <p>loading</p>}
-      {error && <p>{error}</p>}
+      {error && loadedTransactions.length > 0 && <p>{error}</p>}
+      {loadedTransactions.length === 0 && <p>No transactions yet. Add some to see them here!</p>}
     </>
   )
 }
