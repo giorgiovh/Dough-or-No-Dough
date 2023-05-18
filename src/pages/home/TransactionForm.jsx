@@ -10,7 +10,7 @@ import { AuthContext } from "../../context/auth-context"
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-export const TransactionForm = ({ setLoadedTransactions }) => {
+export const TransactionForm = ({ setLoadedTransactions, clearHomeError }) => {
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
 
@@ -36,8 +36,8 @@ export const TransactionForm = ({ setLoadedTransactions }) => {
 
       // this sets the loadedTransaction state with the updated list in the parent component so that the user doesn't have to manually refresh the page to see the updated list
       setLoadedTransactions(responseData.transactions)
-
-      // Redirect the user to a different page
+      
+      clearHomeError()
     } catch (err) {
       // no need to do anything here since we're setting the error state in sendRequest()
     }

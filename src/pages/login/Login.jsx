@@ -116,14 +116,27 @@ export default function Login() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               /> */}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Log In
-              </Button>
+              {!isLoading && (
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Log In
+                </Button>
+              )}
+              {isLoading && (
+                <Button
+                  disabled
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Loading
+                </Button>
+              )}
+              {error && <p>{error}</p>}
               <Grid container justifyContent="flex-end">
                 {/* <Grid item xs>
                   <Link href="#" variant="body2">

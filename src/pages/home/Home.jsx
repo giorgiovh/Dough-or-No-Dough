@@ -41,6 +41,7 @@ export const Home = () => {
   }, [sendRequest, auth, auth.userId]) // Since we wrapped sendRequest with useCallback in our custom hook, having it in the dependency array won't create an infinite loop
 
   const onDeleteTransaction = (deletedTransId) => {
+    clearError()
     setLoadedTransactions(prevTransactions => prevTransactions.filter(trans => trans.id !== deletedTransId))
   }
 
@@ -49,7 +50,7 @@ export const Home = () => {
       <div className={styles.container}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={4}>
-            <TransactionForm setLoadedTransactions={setLoadedTransactions}/>
+            <TransactionForm setLoadedTransactions={setLoadedTransactions} clearHomeError={clearError}/>
           </Grid>
           <Grid item xs={12} sm={6} md={8}>
             <TransactionList loadedTransactions={loadedTransactions} onDeleteTransaction={onDeleteTransaction} isLoading={isLoading} error={error}/>
