@@ -22,7 +22,7 @@ export const Home = () => {
     const fetchTransactions = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/transactions/user/${auth.userId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/transactions/user/${auth.userId}`,
           'GET',
           null,
           {'Authorization': 'Bearer ' + auth.token}

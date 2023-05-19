@@ -28,7 +28,7 @@ export default function Transaction({ id, name, amount, onDelete }) {
   const handleDelete = async () => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/transactions/${id}`, 
+        `${process.env.REACT_APP_BACKEND_URL}/transactions/${id}`, 
         'DELETE',
         null,
         {

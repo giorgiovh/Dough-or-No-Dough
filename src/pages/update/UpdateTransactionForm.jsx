@@ -27,7 +27,7 @@ export const UpdateTransactionForm = ({ transaction }) => {
 
     try {
       await sendRequest(
-        `http://localhost:5000/api/transactions/${transaction.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/transactions/${transaction.id}`,
         'PATCH',
         JSON.stringify({
           name,

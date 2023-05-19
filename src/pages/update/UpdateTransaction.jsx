@@ -21,7 +21,7 @@ export const UpdateTransaction = () => {
     const fetchTransaction = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/transactions/${id}`,
+          `${process.env.REACT_APP_BACKEND_URL}/transactions/${id}`,
           'GET',
           null,
           {
